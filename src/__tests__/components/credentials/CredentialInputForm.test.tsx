@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChakraProvider } from '@chakra-ui/react';
 import { CredentialInputForm } from '../../../components/credentials/CredentialInputForm';
@@ -57,7 +57,6 @@ describe('CredentialInputForm', () => {
     // Since the button is disabled, the form won't submit, but we can test validation
     // by enabling the button and then submitting
     const usernameInput = screen.getByLabelText(/username/i);
-    const passwordInput = screen.getByLabelText(/password/i);
     
     // Fill in one field to make form valid, then clear it to trigger validation
     await act(async () => {

@@ -17,5 +17,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true
+  },
+  define: {
+    'import.meta.env': 'import.meta.env'
   }
 })

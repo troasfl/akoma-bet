@@ -8,8 +8,7 @@ import {
   CredentialStatus, 
   CredentialInput, 
   CredentialUpdate,
-  CredentialValidationResult,
-  CredentialError 
+  CredentialValidationResult
 } from '../types/credentials';
 
 interface CredentialState {

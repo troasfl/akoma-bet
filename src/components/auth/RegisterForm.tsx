@@ -17,11 +17,11 @@ import { useAuthStore } from '@/stores/authStore'
 import type { RegisterCredentials } from '@/types/auth'
 
 export const RegisterForm: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<RegisterCredentials>()
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterCredentials>()
   const { register: registerUser, loading, error, clearError } = useAuthStore()
   const toast = useToast()
 
-  const password = watch('password')
+
 
   const onSubmit = async (data: RegisterCredentials) => {
     clearError()

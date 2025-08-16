@@ -9,7 +9,7 @@ import {
   Tooltip,
   useColorModeValue
 } from '@chakra-ui/react';
-import { CheckCircleIcon, WarningIcon, CloseIcon, InfoIcon } from '@chakra-ui/icons';
+import { CheckCircleIcon, WarningIcon, InfoIcon } from '@chakra-ui/icons';
 import { CredentialStatus } from '../../types/credentials';
 
 interface CredentialStatusIndicatorProps {

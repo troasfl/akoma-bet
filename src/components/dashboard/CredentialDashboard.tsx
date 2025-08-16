@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   VStack,
@@ -46,7 +46,7 @@ export const CredentialDashboard: React.FC<CredentialDashboardProps> = ({
     error,
     isValidating,
     addCredentials,
-    updateCredentials,
+
     deleteCredentials,
     loadCredentials,
     validateCredentials,
@@ -65,8 +65,7 @@ export const CredentialDashboard: React.FC<CredentialDashboardProps> = ({
     onClose: onDeleteModalClose
   } = useDisclosure();
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [masterKey, setMasterKey] = useState('');
+
 
   useEffect(() => {
     loadCredentials();
@@ -119,30 +118,7 @@ export const CredentialDashboard: React.FC<CredentialDashboardProps> = ({
     }
   };
 
-  const handleUpdateCredentials = async (update: any) => {
-    try {
-      const tempMasterKey = 'temp-master-key-32-chars-long-12345';
-      await updateCredentials(update, tempMasterKey);
-      
-      toast({
-        title: 'Credentials Updated',
-        description: 'Your credentials have been updated successfully.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-      
-      setIsEditing(false);
-    } catch (error) {
-      toast({
-        title: 'Failed to Update Credentials',
-        description: error instanceof Error ? error.message : 'An error occurred',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
+
 
   const handleDeleteCredentials = async () => {
     try {
@@ -335,7 +311,7 @@ export const CredentialDashboard: React.FC<CredentialDashboardProps> = ({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => setIsEditing(true)}
+                    onClick={() => {}}
                   >
                     Edit
                   </Button>
@@ -354,7 +330,7 @@ export const CredentialDashboard: React.FC<CredentialDashboardProps> = ({
               <CredentialDisplay
                 credentials={credentials}
                 status={status}
-                onEdit={() => setIsEditing(true)}
+                onEdit={() => {}}
                 onDelete={onDeleteModalOpen}
                 onValidate={handleValidateCredentials}
               />

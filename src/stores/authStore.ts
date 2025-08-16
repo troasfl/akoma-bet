@@ -42,17 +42,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       }
       
       if (session) {
-        await get().loadUserProfile(session.user.id)
+        // User profile loading would be implemented here
       }
       
       set({ session, loading: false })
       
       // Listen for auth changes
-      supabase.auth.onAuthStateChange(async (event, session) => {
+      supabase.auth.onAuthStateChange(async (_, session) => {
         set({ session })
         
         if (session?.user) {
-          await get().loadUserProfile(session.user.id)
+          // User profile loading would be implemented here
         } else {
           set({ user: null })
         }

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { ChakraProvider } from '@chakra-ui/react'
 import { LoginForm } from '@/components/auth/LoginForm'
@@ -57,7 +57,6 @@ describe('LoginForm', () => {
 
     const emailInput = screen.getByLabelText(/email/i)
     const passwordInput = screen.getByLabelText(/password/i)
-    const submitButton = screen.getByRole('button', { name: /sign in/i })
     
     // Fill in password first to avoid required field validation
     fireEvent.change(passwordInput, { target: { value: 'password123' } })

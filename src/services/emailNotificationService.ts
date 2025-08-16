@@ -60,7 +60,7 @@ export class EmailNotificationService {
       }
       
       // Create email template based on event type
-      const template = this.createEmailTemplate(event, credentials, status);
+      const template = this.createEmailTemplate(event, credentials);
       
       // Send email using Supabase Edge Functions or external service
       await this.sendEmail({
@@ -85,8 +85,7 @@ export class EmailNotificationService {
    */
   private createEmailTemplate(
     event: NotificationEvent,
-    credentials?: UserCredentials,
-    status?: CredentialStatus
+    credentials?: UserCredentials
   ): EmailTemplate {
     const baseUrl = process.env.VITE_APP_URL || 'https://akoma-bet.com';
     

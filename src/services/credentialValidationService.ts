@@ -1,5 +1,5 @@
 import { chromium, Browser, Page } from 'playwright';
-import { CredentialInput, CredentialValidationResult, CredentialError } from '../types/credentials';
+import { CredentialInput, CredentialValidationResult } from '../types/credentials';
 
 export interface ValidationOptions {
   timeout?: number; // Timeout in milliseconds
@@ -128,33 +128,31 @@ export class CredentialValidationService {
       page = await context.newPage();
       
       // Navigate to msport.com login page
-      await page.goto('https://msport.com/gh/web', {
+      await page!.goto('https://msport.com/gh/web', {
         waitUntil: 'networkidle',
         timeout: options.timeout
       });
       
       // Wait for the login form to be visible
-      await page.waitForSelector('input[type="text"], input[name="username"], input[placeholder*="username" i]', {
+      await page!.waitForSelector('input[type="text"], input[name="username"], input[placeholder*="username" i]', {
         timeout: options.timeout
       });
       
       // Find username and password fields
-      const usernameField = await this.findUsernameField(page);
-      const passwordField = await this.findPasswordField(page);
+      const usernameField = await this.findUsernameField(page!);
+      const passwordField = await this.findPasswordField(page!);
       
       if (!usernameField || !passwordField) {
         throw new Error('Could not find login form fields');
       }
       
       // Clear fields and enter credentials
-      await usernameField.clear();
       await usernameField.fill(credentials.username);
       
-      await passwordField.clear();
       await passwordField.fill(credentials.password);
       
       // Find and click login button
-      const loginButton = await this.findLoginButton(page);
+      const loginButton = await this.findLoginButton(page!);
       if (!loginButton) {
         throw new Error('Could not find login button');
       }
@@ -162,7 +160,7 @@ export class CredentialValidationService {
       await loginButton.click();
       
       // Wait for navigation or error message
-      const result = await this.waitForLoginResult(page, options.timeout);
+      const result = await this.waitForLoginResult(page!, options.timeout);
       
       return result;
       
@@ -277,14 +275,13 @@ export class CredentialValidationService {
       // Wait for either successful navigation or error message
       await Promise.race([
         // Success: URL changes or dashboard appears
-        page.waitForURL(url => !url.includes('login') && !url.includes('signin'), { timeout }),
+        page.waitForURL(url => !url.toString().includes('login') && !url.toString().includes('signin'), { timeout }),
         // Error: Error message appears
         page.waitForSelector('[class*="error"], [class*="alert"], .error-message, .alert-danger', { timeout })
       ]);
       
       // Check if we're on a login page (failure) or dashboard (success)
       const currentUrl = page.url();
-      const pageContent = await page.content();
       
       // Check for error indicators
       const hasError = await page.evaluate(() => {

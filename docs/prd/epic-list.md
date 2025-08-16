@@ -11,3 +11,6 @@ Create betting schedule configuration with built-in risk management and safety c
 
 **Epic 4: Reporting & Performance Tracking**
 Develop user dashboard with profit/loss tracking, activity logs, and performance analytics
+
+**Epic 5: Technical Debt & Platform Improvements**
+Address technical debt, performance optimizations, and platform improvements for long-term maintainability and scalability
