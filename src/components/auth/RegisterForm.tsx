@@ -13,15 +13,15 @@ import {
   Select
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import type { RegisterCredentials } from '@/types/auth'
 
 export const RegisterForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterCredentials>()
   const { register: registerUser, loading, error, clearError } = useAuthStore()
+  const navigate = useNavigate()
   const toast = useToast()
-
-
 
   const onSubmit = async (data: RegisterCredentials) => {
     clearError()
@@ -31,9 +31,12 @@ export const RegisterForm: React.FC = () => {
         title: 'Registration successful',
         description: 'Please check your email to verify your account.',
         status: 'success',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       })
+      
+      // Redirect to email verification page
+      navigate('/verify-email')
     } catch (err) {
       toast({
         title: 'Registration failed',
@@ -120,7 +123,7 @@ export const RegisterForm: React.FC = () => {
                 required: 'Password is required',
                 minLength: { value: 12, message: 'Password must be at least 12 characters' },
                 pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{12,}$/,
                   message: 'Password must contain uppercase, lowercase, number, and symbol'
                 }
               })}

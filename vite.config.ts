@@ -12,13 +12,20 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    host: true
+    host: true,
+    strictPort: false
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      external: ['playwright', 'playwright-core']
+    }
   },
   define: {
     'import.meta.env': 'import.meta.env'
+  },
+  optimizeDeps: {
+    exclude: ['playwright', 'playwright-core']
   }
 })

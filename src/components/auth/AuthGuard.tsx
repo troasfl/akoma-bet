@@ -11,7 +11,13 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   children, 
   requireVerification = true 
 }) => {
-  const { user, session, loading } = useAuthStore()
+  const { session, loading } = useAuthStore()
+
+  // Debug logging
+  console.log('AuthGuard - loading:', loading)
+  console.log('AuthGuard - session:', session)
+  console.log('AuthGuard - email_confirmed_at:', session?.user?.email_confirmed_at)
+  console.log('AuthGuard - requireVerification:', requireVerification)
 
   if (loading) {
     return (
@@ -24,7 +30,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     )
   }
 
-  if (!session || !user) {
+  if (!session) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minH="100vh">
         <VStack spacing={4}>
@@ -32,6 +38,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
             Authentication Required
           </Text>
           <Text>Please sign in to access this page.</Text>
+          <Text fontSize="sm" color="gray.500">
+            Debug: No session found
+          </Text>
         </VStack>
       </Box>
     )
@@ -45,6 +54,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
             Email Verification Required
           </Text>
           <Text>Please verify your email address to access this page.</Text>
+          <Text fontSize="sm" color="gray.500">
+            Email: {session.user.email}
+          </Text>
         </VStack>
       </Box>
     )

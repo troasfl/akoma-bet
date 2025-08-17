@@ -13,6 +13,7 @@ import {
   Link
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import type { LoginCredentials } from '@/types/auth'
 
@@ -20,6 +21,7 @@ export const LoginForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>()
   const { login, loading, error, clearError } = useAuthStore()
   const toast = useToast()
+  const navigate = useNavigate()
 
   const onSubmit = async (data: LoginCredentials) => {
     clearError()
@@ -32,6 +34,8 @@ export const LoginForm: React.FC = () => {
         duration: 3000,
         isClosable: true,
       })
+      // Navigate to dashboard after successful login
+      navigate('/dashboard')
     } catch (err) {
       toast({
         title: 'Login failed',

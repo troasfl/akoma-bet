@@ -37,27 +37,36 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       // Get initial session
       const { data: { session }, error } = await supabase.auth.getSession()
       
+      console.log('Auth initialize - session:', session)
+      console.log('Auth initialize - error:', error)
+      
       if (error) {
         throw error
       }
       
       if (session) {
+        console.log('Auth initialize - user found:', session.user.email)
+        console.log('Auth initialize - email_confirmed_at:', session.user.email_confirmed_at)
         // User profile loading would be implemented here
       }
       
       set({ session, loading: false })
       
       // Listen for auth changes
-      supabase.auth.onAuthStateChange(async (_, session) => {
+      supabase.auth.onAuthStateChange(async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email)
+        console.log('Auth state changed - email_confirmed_at:', session?.user?.email_confirmed_at)
         set({ session })
         
         if (session?.user) {
           // User profile loading would be implemented here
+          // You could also trigger navigation here if needed
         } else {
           set({ user: null })
         }
       })
     } catch (error) {
+      console.error('Auth initialize error:', error)
       set({ error: handleAuthError(error), loading: false })
     }
   },

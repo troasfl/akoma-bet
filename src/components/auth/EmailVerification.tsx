@@ -9,6 +9,7 @@ import {
   useToast,
   Spinner
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import { supabase } from '@/utils/supabase'
 
@@ -17,6 +18,7 @@ export const EmailVerification: React.FC = () => {
   const [verified, setVerified] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { session } = useAuthStore()
+  const navigate = useNavigate()
   const toast = useToast()
 
   useEffect(() => {
@@ -35,11 +37,16 @@ export const EmailVerification: React.FC = () => {
           setVerified(true)
           toast({
             title: 'Email verified',
-            description: 'Your email has been successfully verified.',
+            description: 'Your email has been successfully verified. Redirecting to dashboard...',
             status: 'success',
-            duration: 5000,
+            duration: 3000,
             isClosable: true,
           })
+          
+          // Redirect to dashboard after a short delay
+          setTimeout(() => {
+            navigate('/dashboard')
+          }, 2000)
         } else {
           setError('Email not verified. Please check your email and click the verification link.')
         }
@@ -108,7 +115,14 @@ export const EmailVerification: React.FC = () => {
             <AlertIcon />
             Your email has been verified successfully!
           </Alert>
-          <Text>You can now access all features of the platform.</Text>
+          <Text>Redirecting to dashboard...</Text>
+          <Button
+            onClick={() => navigate('/dashboard')}
+            colorScheme="blue"
+            size="lg"
+          >
+            Go to Dashboard
+          </Button>
         </VStack>
       </Box>
     )
